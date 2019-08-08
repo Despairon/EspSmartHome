@@ -1,3 +1,5 @@
+#include "SmartHomeDevice/SmartHomeDevice/SmartHomeDevice.h"
+
 #define SERIAL_SPEED 9600
 
 void setup() 

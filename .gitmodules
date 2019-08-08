@@ -1,4 +1,4 @@
-[submodule "Src/CommonLibrary"]
-	path = Src/CommonLibrary
-	url = https://github.com/Despairon/Common_library.git
-	branch = EspLibrary
+
+[submodule "Src/SmartHomeDevice"]
+	path = Main/SmartHomeDevice
+	url = https://github.com/Despairon/SmartHomeDevice.git
