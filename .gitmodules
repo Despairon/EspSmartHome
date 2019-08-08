@@ -1,4 +1,4 @@
 
-[submodule "Src/SmartHomeDevice"]
+[submodule "Main/SmartHomeDevice"]
 	path = Main/SmartHomeDevice
 	url = https://github.com/Despairon/SmartHomeDevice.git
