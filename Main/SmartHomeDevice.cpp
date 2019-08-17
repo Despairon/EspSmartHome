@@ -2,6 +2,9 @@
 #include "rapidjson/document.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/writer.h"
+#include <algorithm>
+#include <string>
+#include <Arduino.h>
 
 namespace SmartHomeDevice_n
 {
@@ -173,8 +176,8 @@ namespace SmartHomeDevice_n
     void SmartHomeDevice::initTaskManager()
     {
         (void)taskManager.scheduleTask(this);
-        (void)taskManager.scheduleTask(&eventSystem, Priority::HIGH);
-        (void)taskManager.scheduleTask(timerManager, Priority::HIGH);
+        (void)taskManager.scheduleTask(&eventSystem, Priority::PRIORITY_HIGH);
+        (void)taskManager.scheduleTask(timerManager, Priority::PRIORITY_HIGH);
     }
 
     void SmartHomeDevice::init()
@@ -263,7 +266,7 @@ namespace SmartHomeDevice_n
     {
         if (deviceId != -1)
         {
-            if (std::find_if(paramsList.begin(), paramsList.end(), [&deviceParam](const auto &param) -> bool {return deviceParam.getName() == param.getName(); }) == paramsList.end())
+            if (std::find_if(paramsList.begin(), paramsList.end(), [&deviceParam](const DeviceParameter &param) -> bool {return deviceParam.getName() == param.getName(); }) == paramsList.end())
             {
                 paramsList.push_back(deviceParam);
 
@@ -292,11 +295,11 @@ namespace SmartHomeDevice_n
 
                 HttpMessage deviceStatusMsg;
 
-                deviceStatusMsg.setRequestLine(HttpMethod::POST, "deviceStatus?id=" + std::to_string(deviceId), HttpVersion::HTTP_1_1)
+                deviceStatusMsg.setRequestLine(HttpMethod::POST, "deviceStatus?id=" + std::string(String(deviceId).c_str()), HttpVersion::HTTP_1_1)
                     .appendHeader(HttpHeader::HOST, connectedHost)
                     .appendHeader(HttpHeader::ACCEPT, "application/json")
                     .appendHeader(HttpHeader::CONTENT_TYPE, "application/json")
-                    .appendHeader(HttpHeader::CONTENT_LENGTH, std::to_string(deviceStatusJson.length()))
+                    .appendHeader(HttpHeader::CONTENT_LENGTH, std::string(String(deviceStatusJson.length()).c_str()))
                     .appendBody(deviceStatusJson);
 
                 sendHttpMessage(deviceStatusMsg);
@@ -314,7 +317,7 @@ namespace SmartHomeDevice_n
     {
         if (deviceId != -1)
         {
-            auto param = std::find_if(paramsList.begin(), paramsList.end(), [&paramName](const auto &param) -> bool {return paramName == param.getName(); });
+            auto param = std::find_if(paramsList.begin(), paramsList.end(), [&paramName](const DeviceParameter &param) -> bool {return paramName == param.getName(); });
 
             if (param != paramsList.end())
             {
@@ -345,11 +348,11 @@ namespace SmartHomeDevice_n
 
                 HttpMessage deviceStatusMsg;
 
-                deviceStatusMsg.setRequestLine(HttpMethod::POST, "deviceStatus?id=" + std::to_string(deviceId), HttpVersion::HTTP_1_1)
+                deviceStatusMsg.setRequestLine(HttpMethod::POST, "deviceStatus?id=" + std::string(String(deviceId).c_str()), HttpVersion::HTTP_1_1)
                     .appendHeader(HttpHeader::HOST, connectedHost)
                     .appendHeader(HttpHeader::ACCEPT, "application/json")
                     .appendHeader(HttpHeader::CONTENT_TYPE, "application/json")
-                    .appendHeader(HttpHeader::CONTENT_LENGTH, std::to_string(deviceStatusJson.length()))
+                    .appendHeader(HttpHeader::CONTENT_LENGTH,  std::string(String(deviceStatusJson.length()).c_str()))
                     .appendBody(deviceStatusJson);
 
                 sendHttpMessage(deviceStatusMsg);
@@ -367,7 +370,7 @@ namespace SmartHomeDevice_n
     {
         static const std::string dummy;
 
-        auto param = std::find_if(paramsList.begin(), paramsList.end(), [&paramName](const auto &param) -> bool {return paramName == param.getName(); });
+        auto param = std::find_if(paramsList.begin(), paramsList.end(), [&paramName](const DeviceParameter &param) -> bool {return paramName == param.getName(); });
 
         if (param != paramsList.end())
             return param->getCurrentValue();
@@ -544,7 +547,7 @@ namespace SmartHomeDevice_n
 
             if (connectedToServer())
             {
-                connectedHost = eventData.data.hostInfo.host + ':' + std::to_string(eventData.data.hostInfo.port);
+                connectedHost = eventData.data.hostInfo.host + ':' +  std::string(String(eventData.data.hostInfo.port).c_str());
                 eventSystem.sendEvent(Event(events[Events::SERVER_CONNECTED]));
             }
             else
@@ -627,7 +630,7 @@ namespace SmartHomeDevice_n
         .appendHeader(HttpHeader::HOST, connectedHost)
         .appendHeader(HttpHeader::ACCEPT, "application/json")
         .appendHeader(HttpHeader::CONTENT_TYPE, "application/json")
-        .appendHeader(HttpHeader::CONTENT_LENGTH, std::to_string(deviceStatusJson.length()))
+        .appendHeader(HttpHeader::CONTENT_LENGTH, std::string(String(deviceStatusJson.length()).c_str()))
         .appendBody(deviceStatusJson);
 
         sendHttpMessage(deviceStatusMsg);
@@ -641,7 +644,7 @@ namespace SmartHomeDevice_n
         {
             HttpMessage deviceRequestMsg;
 
-            deviceRequestMsg.setRequestLine(HttpMethod::GET, "deviceStatus?id=" + std::to_string(deviceId), HttpVersion::HTTP_1_1)
+            deviceRequestMsg.setRequestLine(HttpMethod::GET, "deviceStatus?id=" + std::string(String(deviceId).c_str()), HttpVersion::HTTP_1_1)
                 .appendHeader(HttpHeader::HOST, connectedHost);
 
             sendHttpMessage(deviceRequestMsg);

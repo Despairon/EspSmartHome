@@ -5,8 +5,10 @@ namespace TaskManager_n
     Task::Task()
     {
         id = 0;
-        priority = Priority::MEDIUM;
+        priority = Priority::PRIORITY_MEDIUM;
     }
+
+    Task::~Task() { }
 
     const Priority &Task::getPriority() const
     {

@@ -21,7 +21,7 @@ namespace TaskManager_n
         void go() override;
         void terminate() override;
 
-        TaskId scheduleTask(Task *task, const Priority &priority = Priority::MEDIUM);
+        TaskId scheduleTask(Task *task, const Priority &priority = Priority::PRIORITY_MEDIUM);
         void unscheduleTask(Task *task);
     };
 }

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "EventSystem.h"
 
 namespace EventSystem_n
