@@ -1,4 +1,4 @@
-#include "SmartHomeDevice.h"
+#include "EspSmartHome.h"
 
 #define SERIAL_SPEED 9600
 
