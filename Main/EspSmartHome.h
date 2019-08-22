@@ -1,9 +1,17 @@
 #include "SmartHomeDevice.h"
+#include <arduino.h>
+#include <ESP8266WiFi.h>
+#include <list>
+
+using namespace SmartHomeDevice_n;
 
 namespace EspSmartHome_n
 {
     class EspSmartHome : public SmartHomeDevice
     {
+    private:
+        WiFiClient wifiClient;
+        std::list<std::function<void(int)>> scanCallbacks;
     protected:
         void                connectToWiFi(const std::string &ssid, const std::string &password) override;
         void                disconnectFromWiFi() override;
@@ -20,7 +28,9 @@ namespace EspSmartHome_n
         void                reset() override;
         void                debugPrint(const std::string &debugMessage) override;
     public:
-        EspSmartHome(const std::string&, const WifiConfiguration&);
+        EspSmartHome(const std::string &deviceName, const WifiConfiguration &configuration);
         virtual ~EspSmartHome();
-    }
+
+        void run() override;
+    };
 }
