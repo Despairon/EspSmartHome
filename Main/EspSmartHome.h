@@ -13,6 +13,7 @@ namespace EspSmartHome_n
         WiFiClient wifiClient;
         std::list<std::function<void(int)>> scanCallbacks;
     protected:
+        std::string         getMacAddress() override;
         void                connectToWiFi(const std::string &ssid, const std::string &password) override;
         void                disconnectFromWiFi() override;
         void                scanForNetworks(std::function<void(int)> scanCallback) override;

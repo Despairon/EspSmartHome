@@ -49,6 +49,9 @@ namespace SmartHomeDevice_n
     void DeviceParameter::addValue(const std::string &value)
     {
         values.push_back(value);
+
+            if (values.size() == 1)
+                setCurrentValue(values.front());
     }
 
     void DeviceParameter::setType(const DeviceParamType &type)

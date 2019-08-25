@@ -14,6 +14,11 @@ namespace EspSmartHome_n
         disconnectFromWiFi();
     }
 
+    std::string EspSmartHome::getMacAddress()
+    {
+        return std::string(WiFi.macAddress().c_str());
+    }
+
     void EspSmartHome::connectToWiFi(const std::string &ssid, const std::string &password)
     {
         WiFi.begin(ssid.c_str(), password.c_str());
