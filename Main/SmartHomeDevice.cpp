@@ -55,10 +55,10 @@ namespace SmartHomeDevice_n
     {
         // default mandatory params set
 
-        auto deviceIdParam     = DeviceParameter("Device_ID",          DeviceParamType::TEXTBOX, true);
-        auto deviceMacAddress  = DeviceParameter("Device_MAC_Address", DeviceParamType::TEXTBOX, true);
-        auto deviceNameParam   = DeviceParameter("Device_Name",        DeviceParamType::TEXTBOX, true);
-        auto deviceStatusParam = DeviceParameter("Device_Status",      DeviceParamType::TEXTBOX, true);
+        auto deviceIdParam     = DeviceParameter("device_ID",          DeviceParamType::TEXTBOX, true);
+        auto deviceMacAddress  = DeviceParameter("device_MAC_Address", DeviceParamType::TEXTBOX, true);
+        auto deviceNameParam   = DeviceParameter("device_Name",        DeviceParamType::TEXTBOX, true);
+        auto deviceStatusParam = DeviceParameter("device_Status",      DeviceParamType::TEXTBOX, true);
 
         deviceIdParam.addValue("-1"); 
         deviceMacAddress.addValue(getMacAddress());
@@ -66,6 +66,7 @@ namespace SmartHomeDevice_n
         deviceStatusParam.addValue("Online");
 
         paramsList.push_back(deviceIdParam);
+        paramsList.push_back(deviceMacAddress);
         paramsList.push_back(deviceNameParam);
         paramsList.push_back(deviceStatusParam);
     }
